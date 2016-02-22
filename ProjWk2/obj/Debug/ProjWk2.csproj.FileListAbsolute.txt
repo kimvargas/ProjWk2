@@ -1,0 +1,6 @@
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\bin\Debug\ProjWk2.exe.config
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\bin\Debug\ProjWk2.exe
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\bin\Debug\ProjWk2.pdb
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\obj\Debug\ProjWk2.csprojResolveAssemblyReference.cache
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\obj\Debug\ProjWk2.exe
+C:\Users\We Can Code IT\Desktop\WeCanCodeIT\ProjWk2\ProjWk2\obj\Debug\ProjWk2.pdb

@@ -70,7 +70,7 @@ namespace ProjWk2
                 readTextLines = CheckedOutResourcesSR.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (string line in readTextLines)
                 {
-                    foreach (KeyValuePair<int,string> bookID in Resources)
+                    foreach (KeyValuePair<int, string> bookID in Resources)
                     {
                         if (line.Contains(bookID.Key.ToString()))
                         {
@@ -110,7 +110,7 @@ namespace ProjWk2
 
 
 
-            
+
 
             while (true)
             {
@@ -134,7 +134,7 @@ namespace ProjWk2
                         Header();
                         Console.WriteLine(menu2);
                         ListResources(CheckedOutDictionary);
-                        
+
                         Console.WriteLine("\n\nPlease select a number:\n\n1. View only Available Resources\n2. View Checked Out Resources\n3. Return to Menu");
                         int submenuChoice = int.Parse(Console.ReadLine());
                         switch (submenuChoice)
@@ -161,29 +161,36 @@ namespace ProjWk2
                                 StreamReader CheckedOutResourcesSR2 = new StreamReader(@"CheckedOutResources.txt");
                                 using (CheckedOutResourcesSR2)
                                 {
-                                    Console.WriteLine("The following books have been checked out:");
-                                    sortThings = CheckedOutResourcesSR2.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                                    Array.Sort(sortThings);
-                                    PrintArray(sortThings);
+                                    if (CheckedOutResourcesSR2.ReadToEnd() == null)
+                                    {
+                                        Console.WriteLine("No books have been checked out at this time.");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("The following books have been checked out:");
+                                        sortThings = CheckedOutResourcesSR2.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                                        Array.Sort(sortThings);
+                                        PrintArray(sortThings);
+                                    }
                                 }
 
 
-                                    //foreach (KeyValuePair<int, string> resource in Resources)
-                                    //{
-                                    //    if (resource.Value.Contains("(Checked Out)"))
-                                    //    {
-                                    //        Console.WriteLine(i + ". " + resource.Value);
-                                    //        i++;
-                                    //    }
-                                    //}
-                                    break;
+                                //foreach (KeyValuePair<int, string> resource in Resources)
+                                //{
+                                //    if (resource.Value.Contains("(Checked Out)"))
+                                //    {
+                                //        Console.WriteLine(i + ". " + resource.Value);
+                                //        i++;
+                                //    }
+                                //}
+                                break;
                             case 3:
                                 break;
                             default:
                                 break;
                         }
-                    
-                        
+
+
 
                         Footer();
                         break;
@@ -196,64 +203,83 @@ namespace ProjWk2
                         Console.WriteLine("\n\nEnter student name:" + "\n-Type \"Help\" to see list of students.");
                         string userRequest = Console.ReadLine().ToUpper();
 
-                        ValidName(userRequest);
+                        int studentFileReq = ValidName(userRequest);
+
+
+
+                        string fileName = studentFileReq + ".txt";  //Find some way to use SB for this
+                        try
+                        {
+                            StreamReader srStudentAcct = new StreamReader(fileName);
+                            Console.WriteLine("\n\nStudent Account for " + userRequest.ToUpper() + ": \n");
+                            using (srStudentAcct)
+                            {
+                                Console.WriteLine(srStudentAcct.ReadToEnd());
+                            }
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Console.Error.WriteLine("This student is not in the system. Please check spelling and try again or register new student.");
+                        }
+                        catch (IOException)
+                        {
+                            Console.Error.WriteLine("Cannot open the file {0}", fileName);
+                        }
+
 
                         Footer();
                         break;
-                  
-                        
-                        
-                        
-                        
-//CHECKOUT
+
+
+
+
+
+                    //CHECKOUT
                     case 4:
+                        bool checkout = true;
+                        int newsw = 0;
+                        int rsidReq = 0;
                         Header();
                         Console.WriteLine(menu4);
                         Console.WriteLine("\n\nEnter student name:" /*+ "\n--Type \"Help\" to see list of students."*/);
                         userRequest = Console.ReadLine();
-//Add ValidNameCheck                       
-                        int newsw = Students[userRequest];
-                        int lineCount = File.ReadLines(newsw + ".txt").Count();
-                        int rsidReq = 0;
-                        if (lineCount == 3)
+                        newsw = ValidName(userRequest);
+                        while (checkout)
                         {
-                            Console.WriteLine(userRequest.ToUpper() + " already has three items checked out. No more items are allowed.");
-
-                        }
-                        else
-                        {
-                            Header();
-                            Console.WriteLine(menu4);
-                            Console.WriteLine("Check-Out for " + userRequest.ToUpper() + "\n\n");
-
-                            Console.WriteLine("Enter resource ID:");
-//Dude - make this work.    /*Console.WriteLine("Type Help to see list of available resources.");*/
-
-                            rsidReq = int.Parse(Console.ReadLine());
-
-                            StreamWriter addToStudent = new StreamWriter(newsw + ".txt", true);
-                            StreamWriter CheckedOutResources = new StreamWriter(@"CheckedOutResources.txt", true);
-                            using (addToStudent)
-                            using (CheckedOutResources)
+                            int lineCount = File.ReadLines(newsw + ".txt").Count();
+                            if (lineCount == 3)
                             {
-                                addToStudent.WriteLine(rsidReq + " " + Resources[rsidReq]);
-                                CheckedOutResources.WriteLine(rsidReq + " " + Resources[rsidReq]);
-                                Resources[rsidReq] = (Resources[rsidReq] + " (Checked Out)"); //StringBuilder this sucker first
-                                
+                                Console.WriteLine(userRequest.ToUpper() + " already has three items checked out. No more items are allowed.");
+                                checkout = false; 
                             }
-                            
+                            else
+                            {
+                                Header();
+                                Console.WriteLine(menu4);
+                                Console.WriteLine("Check-Out for " + userRequest.ToUpper() + "\n\n");
+
+                                Console.WriteLine("Enter resource ID:");
+                                Console.WriteLine("Type Help to see list of available resources.");
+                                string numberCheckCO = Console.ReadLine();
+                                rsidReq = ValidNumber(numberCheckCO);
+                                StreamWriter addToStudent = new StreamWriter(newsw + ".txt", true);
+                                StreamWriter CheckedOutResources = new StreamWriter(@"CheckedOutResources.txt", true);
+                                using (addToStudent)
+                                using (CheckedOutResources)
+                                {
+                                    addToStudent.WriteLine(rsidReq + " " + Resources[rsidReq]);
+                                    CheckedOutResources.WriteLine(rsidReq + " " + Resources[rsidReq]);
+                                    Resources[rsidReq] = (Resources[rsidReq] + " (Checked Out)"); //StringBuilder this sucker first
+
+                                }
+
+                            }
+                            Console.WriteLine("Check out another item for this student? Y/N");
+                            if (Console.ReadLine().ToUpper() == "Y")
+                            {
+
+                            }
                         }
-//Add loop for "Check out another book?"
-
-
-
-
-                        
-                        
-
-
-                                              
-
 
 
                         Footer();
@@ -265,7 +291,7 @@ namespace ProjWk2
 
                         Console.WriteLine("\n\nEnter student name:" /*+ "\n--Type \"Help\" to see list of students."*/);
                         userRequest = Console.ReadLine();
-//Add ValidNameCheck                       
+                        //Add ValidNameCheck                       
                         newsw = Students[userRequest];
 
                         Header();
@@ -274,14 +300,15 @@ namespace ProjWk2
                         Console.WriteLine("Enter resource ID:");
                         /*Console.WriteLine("Type Help to see list of available resources.");*/
 
-                        rsidReq = int.Parse(Console.ReadLine());
+                        string numberCheckR = Console.ReadLine();
+                        rsidReq = ValidNumber(numberCheckR);
 
                         string fileNameReturns = Students[userRequest].ToString() + ".txt"; //StringBuilder this sucker first
-                        string deleteThisDANGIT= rsidReq.ToString() + " " + Resources[rsidReq];
+                        string deleteThisDANGIT = rsidReq.ToString() + " " + Resources[rsidReq];
                         //StreamWriter removeFromStudent = new StreamWriter(newsw + ".txt", true);  
 
 
-////////*********************   //DOES NOT FREAKING WORK YET....                      
+                        ////////*********************   //DOES NOT FREAKING WORK YET....                      
                         var studentAcct = System.IO.File.ReadAllLines(fileNameReturns);
                         var studentAcctUpdate = studentAcct.Where(line => !line.Contains(deleteThisDANGIT));
                         System.IO.File.WriteAllLines(fileNameReturns, studentAcctUpdate);
@@ -317,7 +344,7 @@ namespace ProjWk2
 
 
                         Footer();
-                    break;
+                        break;
                     case 6:
                         Header();
                         Console.WriteLine("\n\n\nWould you like to clear student accounts? Y/N \n\nThis will \"return\" all books.");
@@ -362,7 +389,7 @@ namespace ProjWk2
             Console.Clear();
         }
 
-        static int MenuCheck (string choice)
+        static int MenuCheck(string choice)
         {
             string errorNum = "Please type a number.";
             int menuChoice = 0;
@@ -387,12 +414,12 @@ namespace ProjWk2
             }
         }
 
-        static void ListResources(Dictionary<int,string> Resources)
+        static void ListResources(Dictionary<int, string> Resources)
         {
             int a = 1;
             foreach (KeyValuePair<int, string> book in Resources.OrderBy(i => i.Value))
             {
-                Console.WriteLine(a + ". " + book.Value);
+                Console.WriteLine(a + ". " + "ID:" + book.Key + " " + book.Value);
                 a++;
             }
         }
@@ -421,11 +448,11 @@ namespace ProjWk2
                 Console.WriteLine("\n\nEnter student name:" /*+ "\n--Type \"Help\" to see list of students."*/);
                 name = Console.ReadLine();
             }
-            return name; 
+            return name;
 
         }
 
-        static void ValidName(string userRequest)
+        static int ValidName(string userRequest)
         {
 
             int studentFileReq = 0;
@@ -439,7 +466,8 @@ namespace ProjWk2
                     ListStudents(Students);
                     Console.WriteLine("\n\nEnter student name:");
                     userRequest = Console.ReadLine().ToUpper();
-                } else
+                }
+                else
                 {
                     try
                     {
@@ -455,27 +483,38 @@ namespace ProjWk2
 
                 }
             }
-
-
-            string fileName = studentFileReq + ".txt";  //Find some way to use SB for this
-            try
+            return studentFileReq;
+        }
+        static int ValidNumber(string userRequest)
+        {
+            bool validNumber = true;
+            int resIDReq = 0;
+            while (validNumber)
             {
-                StreamReader srStudentAcct = new StreamReader(fileName);
-                Console.WriteLine("\n\nStudent Account for " + userRequest.ToUpper() + ": \n");
-                using (srStudentAcct)
+
+                if (userRequest.Equals("help", StringComparison.CurrentCultureIgnoreCase))
                 {
-                    Console.WriteLine(srStudentAcct.ReadToEnd());
+                    ListResources(Resources);
+                    Console.WriteLine("\n\nEnter Resource ID:");
+                    userRequest = Console.ReadLine();
+                }
+                else
+                {
+                    try
+                    {
+                        resIDReq = int.Parse(userRequest);
+                        validNumber = false;
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        Console.WriteLine("\a\nError: ID not entered correctly. \nPlease enter 5-digit resource ID.");
+                        Console.WriteLine("\n\nEnter resource ID:" + "\n-Type \"Help\" to see list of resources.");
+                        userRequest = Console.ReadLine();
+                    }
+
                 }
             }
-            catch (FileNotFoundException)
-            {
-                Console.Error.WriteLine("This student is not in the system. Please check spelling and try again or register new student.");
-            }
-            catch (IOException)
-            {
-                Console.Error.WriteLine("Cannot open the file {0}", fileName);
-            }
-
+            return resIDReq;
         }
 
 

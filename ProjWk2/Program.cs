@@ -10,34 +10,34 @@ namespace ProjWk2
     class Program
     {
         static Dictionary<int, string> Resources = new Dictionary<int, string>()
-            {   { 100001, "Programming Interviews Exposed" } ,
-                { 100002, "Killer Game Programming" } ,
-                { 100003, "Head First C#" } ,
-                { 100004, "A Smarter Way to Learn JavaScript" } ,
-                { 100005, "Implementing Responsive Design" } ,
-                { 100006, "C# 5.0 For Dummies" } ,
-                { 100007, "Assembly Language Tutor" } ,
-                { 100008, "Mastering C Pointers" } ,
-                { 100009, "Javascritpt For Kids" } ,
-                { 100010, "Essential C# 6.0" } ,
-                { 100011, "ASP.NET MVC 5" }};
+            {   { 1001, "Programming Interviews Exposed" } ,
+                { 1002, "Killer Game Programming" } ,
+                { 1003, "Head First C#" } ,
+                { 1004, "A Smarter Way to Learn JavaScript" } ,
+                { 1005, "Implementing Responsive Design" } ,
+                { 1006, "C# 5.0 For Dummies" } ,
+                { 1007, "Assembly Language Tutor" } ,
+                { 1008, "Mastering C Pointers" } ,
+                { 1009, "Javascritpt For Kids" } ,
+                { 1010, "Essential C# 6.0" } ,
+                { 1011, "ASP.NET MVC 5" }};
 
         static Dictionary<string, int> Students = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase)
         {
-            {"Quinn Bennett", 10001 },
-            {"Sirahn Butler", 10002},
-            {"Imari Childress", 10003},
-            {"Jennifer Evans", 10004},
-            {"Margaret Landefeld", 10005},
-            {"Jacob Lockyer", 10006},
-            {"Richard Raponi", 10007},
-            {"Cameron Robinson", 10008},
-            {"Krista Scholdberg", 10009},
-            {"Ashley Stewart", 10010},
-            {"Cadale Thomas", 10011},
-            {"Kim Vargas", 10012},
-            {"Mary Winkelman", 10013},
-            {"Lawrence Smith", 10014}
+            {"Quinn Bennett", 101 },
+            {"Sirahn Butler", 102},
+            {"Imari Childress", 103},
+            {"Jennifer Evans", 104},
+            {"Margaret Landefeld", 105},
+            {"Jacob Lockyer", 106},
+            {"Richard Raponi", 107},
+            {"Cameron Robinson", 108},
+            {"Krista Scholdberg", 109},
+            {"Ashley Stewart", 110},
+            {"Cadale Thomas", 111},
+            {"Kimberly Vargas", 112},
+            {"Mary Winkelman", 113},
+            {"Lawrence Smith", 114}
         };
 
 
@@ -54,16 +54,16 @@ namespace ProjWk2
 
 
 
+        static Dictionary<int, string> CheckedOutDictionary = new Dictionary<int, string>(Resources);
+
 
 
         static void Main(string[] args)
         {
 
 
-
             string[] readTextLines = null;
             StreamReader CheckedOutResourcesSR = new StreamReader(@"CheckedOutResources.txt");
-            Dictionary<int, string> CheckedOutDictionary = new Dictionary<int, string>(Resources);
             using (CheckedOutResourcesSR)
             {
 
@@ -80,35 +80,6 @@ namespace ProjWk2
                 }
 
             }
-
-
-
-            //List<string> ChOutResourcesList = new List<string>();
-
-            //StringBuilder ChOutResourcesSB = new StringBuilder();
-            //foreach (KeyValuePair<int, string> books in Resources)
-            //{
-            //    if (!ResourceListHolder.Contains(books.Value))
-            //    {
-
-            //        BookOptions.Append(books.Key);
-            //        BookOptions.Append(" ");
-            //        BookOptions.AppendLine(books.Value);
-            //    }
-            //}
-            //BookOptions.ToString();
-            ////Console.WriteLine(BookOptions);
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -147,42 +118,68 @@ namespace ProjWk2
                                 {
                                     if (!resource.Value.Contains("(Checked Out)"))
                                     {
-                                        Console.WriteLine(i + ". " + resource.Value);
+                                        StringBuilder availablebooksSB = new StringBuilder();
+                                        availablebooksSB.Append(i);
+                                        availablebooksSB.Append(". ");
+                                        availablebooksSB.Append(resource.Value);
+                                        Console.WriteLine(availablebooksSB);
+                                        //Console.WriteLine(i + ". " + resource.Value);
                                         i++;
                                     }
                                 }
                                 break;
                             case 2:
-                                i = 1;
                                 Header();
                                 Console.WriteLine(menu2);
 
-                                string[] sortThings = null;
+                                //string[] sortThings = null;
+                                //List<string> sortedList = new List<string>();
                                 StreamReader CheckedOutResourcesSR2 = new StreamReader(@"CheckedOutResources.txt");
                                 using (CheckedOutResourcesSR2)
                                 {
-                                    if (CheckedOutResourcesSR2.ReadToEnd() == null)
+                                    if (CheckedOutResourcesSR2.ReadToEnd()==null)
                                     {
                                         Console.WriteLine("No books have been checked out at this time.");
                                     }
                                     else
                                     {
                                         Console.WriteLine("The following books have been checked out:");
-                                        sortThings = CheckedOutResourcesSR2.ReadToEnd().Split(new string[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
-                                        Array.Sort(sortThings);
-                                        PrintArray(sortThings);
+                                        //Console.WriteLine(CheckedOutResourcesSR2.ReadToEnd());
+
+                                        // List<string> objListOrder = CheckedOutResourcesSR2.ReadToEnd().Split(new List<string> { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+                                        //sortedList = objListOrder.OrderByDescending(o => o.StartsWith).ToList();
+                                        //Array.Sort(sortThings);
+                                        //PrintArray(sortThings);
+
+                                        //Resources.OrderBy(i => i.Value)
+                                        int a = 1;
+                                        foreach (KeyValuePair<int, string> resource in CheckedOutDictionary.OrderByDescending(j => j.Value))
+                                        {
+                                            //    //List<string> CheckedOutResourcesList = new List<string>();
+                                            //    //StringBuilder CheckedOutResourcesListSB = new StringBuilder();
+                                            //    //CheckedOutResourcesListSB.Append(CheckedOutResourcesSR2.ReadLine().Contains(book.Value));
+
+                                            //    //CheckedOutResourcesList.Add(CheckedOutResourcesListSB.ToString());
+
+                                            //    //Console.WriteLine(CheckedOutResourcesListSB.ToString());
+                                            if (resource.Value.Contains("(Checked Out)"))
+                                            {
+                                                StringBuilder checkedoutSB = new StringBuilder();
+                                                checkedoutSB.Append(a);
+                                                checkedoutSB.Append(". ");
+                                                checkedoutSB.Append(resource.Value);
+                                                Console.WriteLine(checkedoutSB);
+                                                //Console.WriteLine(i + ". " + resource.Value);
+                                                a++;
+                                            }
+                                            //Console.WriteLine(a + ". " + "ID:" + book.Key + " " + book.Value);
+                                            //a++;
+                                        }
+                                        
+
                                     }
                                 }
-
-
-                                //foreach (KeyValuePair<int, string> resource in Resources)
-                                //{
-                                //    if (resource.Value.Contains("(Checked Out)"))
-                                //    {
-                                //        Console.WriteLine(i + ". " + resource.Value);
-                                //        i++;
-                                //    }
-                                //}
+                                
                                 break;
                             case 3:
                                 break;
@@ -203,15 +200,15 @@ namespace ProjWk2
                         Console.WriteLine("\n\nEnter student name:" + "\n-Type \"Help\" to see list of students.");
                         string userRequest = Console.ReadLine().ToUpper();
 
-                        int studentFileReq = ValidName(userRequest);
-
+                        string validUserRequest = ValidName(userRequest);
+                        int studentFileReq = Students[validUserRequest];
 
 
                         string fileName = studentFileReq + ".txt";  //Find some way to use SB for this
                         try
                         {
                             StreamReader srStudentAcct = new StreamReader(fileName);
-                            Console.WriteLine("\n\nStudent Account for " + userRequest.ToUpper() + ": \n");
+                            Console.WriteLine("\n\nStudent Account for " + validUserRequest.ToUpper() + ": \n");
                             using (srStudentAcct)
                             {
                                 Console.WriteLine(srStudentAcct.ReadToEnd());
@@ -241,16 +238,19 @@ namespace ProjWk2
                         int rsidReq = 0;
                         Header();
                         Console.WriteLine(menu4);
-                        Console.WriteLine("\n\nEnter student name:" /*+ "\n--Type \"Help\" to see list of students."*/);
+                        Console.WriteLine("\n\nEnter student name:" + "\n--Type \"Help\" to see list of students.");
                         userRequest = Console.ReadLine();
-                        newsw = ValidName(userRequest);
+                        string validatedRequest = ValidName(userRequest);
+                        newsw = Students[validatedRequest];
+
                         while (checkout)
                         {
                             int lineCount = File.ReadLines(newsw + ".txt").Count();
                             if (lineCount == 3)
                             {
                                 Console.WriteLine(userRequest.ToUpper() + " already has three items checked out. No more items are allowed.");
-                                checkout = false; 
+                                checkout = false;
+                                break;
                             }
                             else
                             {
@@ -261,23 +261,35 @@ namespace ProjWk2
                                 Console.WriteLine("Enter resource ID:");
                                 Console.WriteLine("Type Help to see list of available resources.");
                                 string numberCheckCO = Console.ReadLine();
-                                rsidReq = ValidNumber(numberCheckCO);
+                                rsidReq = ValidNumber2(numberCheckCO);
                                 StreamWriter addToStudent = new StreamWriter(newsw + ".txt", true);
-                                StreamWriter CheckedOutResources = new StreamWriter(@"CheckedOutResources.txt", true);
+                                StreamWriter CheckedOutResourcesSW = new StreamWriter(@"CheckedOutResources.txt", true);
                                 using (addToStudent)
-                                using (CheckedOutResources)
+                                using (CheckedOutResourcesSW)
                                 {
-                                    addToStudent.WriteLine(rsidReq + " " + Resources[rsidReq]);
-                                    CheckedOutResources.WriteLine(rsidReq + " " + Resources[rsidReq]);
-                                    Resources[rsidReq] = (Resources[rsidReq] + " (Checked Out)"); //StringBuilder this sucker first
+                                    if (CheckedOutDictionary[rsidReq].Contains("(Checked Out)"))
+                                    {
+                                        Console.WriteLine("This item has already been Checked Out.");
+                                        break;
+                                    }
+                                    else if (CheckedOutDictionary[rsidReq]==null)
+                                    {
+                                        Console.WriteLine("This item does not exist.");
+                                        break;
+                                    } else
+                                    {
+                                        addToStudent.WriteLine(rsidReq + " " + Resources[rsidReq]);
+                                        CheckedOutResourcesSW.WriteLine(rsidReq + " " + Resources[rsidReq] + " (Checked Out)");
+                                        CheckedOutDictionary[rsidReq] = Resources[rsidReq] + " (Checked Out)";
 
+                                    }
                                 }
 
                             }
                             Console.WriteLine("Check out another item for this student? Y/N");
-                            if (Console.ReadLine().ToUpper() == "Y")
+                            if (Console.ReadLine().ToUpper() != "Y")
                             {
-
+                                checkout = false;
                             }
                         }
 
@@ -290,56 +302,63 @@ namespace ProjWk2
                         Console.WriteLine(menu5);
 
                         Console.WriteLine("\n\nEnter student name:" /*+ "\n--Type \"Help\" to see list of students."*/);
-                        userRequest = Console.ReadLine();
-                        //Add ValidNameCheck                       
-                        newsw = Students[userRequest];
+                        string userReturnRequest = Console.ReadLine();
+
+                        string validatedReturnRequest = ValidName(userReturnRequest);
+                        newsw = Students[validatedReturnRequest];
+                        
 
                         Header();
                         Console.WriteLine(menu5);
-                        Console.WriteLine("Return for " + userRequest.ToUpper() + "\n\n");
+                        Console.WriteLine("Return for " + userReturnRequest.ToUpper() + "\n\n");
+                        
+
+                        fileName = newsw + ".txt";  
+                        try
+                        {
+                            StreamReader srStudentAcct = new StreamReader(fileName);
+                            Console.WriteLine(userReturnRequest.ToUpper() + " has the following books out: \n");
+                            using (srStudentAcct)
+                            {
+                                Console.WriteLine(srStudentAcct.ReadToEnd());
+                            }
+                        }
+                        catch (FileNotFoundException)
+                        {
+                            Console.Error.WriteLine("This student is not in the system. Please check spelling and try again or register new student.");
+                        }
+                        catch (IOException)
+                        {
+                            Console.Error.WriteLine("Cannot open the file {0}", fileName);
+                        }
+
+
+
+
                         Console.WriteLine("Enter resource ID:");
-                        /*Console.WriteLine("Type Help to see list of available resources.");*/
 
                         string numberCheckR = Console.ReadLine();
                         rsidReq = ValidNumber(numberCheckR);
 
-                        string fileNameReturns = Students[userRequest].ToString() + ".txt"; //StringBuilder this sucker first
+                        string fileNameReturns = Students[userReturnRequest].ToString() + ".txt"; //StringBuilder this sucker first
                         string deleteThisDANGIT = rsidReq.ToString() + " " + Resources[rsidReq];
-                        //StreamWriter removeFromStudent = new StreamWriter(newsw + ".txt", true);  
+                        
 
 
-                        ////////*********************   //DOES NOT FREAKING WORK YET....                      
-                        var studentAcct = System.IO.File.ReadAllLines(fileNameReturns);
-                        var studentAcctUpdate = studentAcct.Where(line => !line.Contains(deleteThisDANGIT));
+                                     
+                        string[] studentAcct = System.IO.File.ReadAllLines(fileNameReturns);
+                        IEnumerable<string> studentAcctUpdate = studentAcct.Where(line => !line.Contains(deleteThisDANGIT));
                         System.IO.File.WriteAllLines(fileNameReturns, studentAcctUpdate);
 
-                        var checkedOutFile = System.IO.File.ReadAllLines(@"CheckedOutResources.txt");
-                        var checkedOutFileUpdate = checkedOutFile.Where(line => !line.Contains(deleteThisDANGIT));
+                        string[] checkedOutFile = System.IO.File.ReadAllLines(@"CheckedOutResources.txt");
+                        IEnumerable<string> checkedOutFileUpdate = checkedOutFile.Where(line => !line.Contains(deleteThisDANGIT));
                         System.IO.File.WriteAllLines(@"CheckedOutResources.txt", checkedOutFileUpdate);
 
 
 
-
-
-                        //Make a method for this thing: 
-
                         string[] updateResourceReturns = CheckedOutDictionary[rsidReq].Split('(');
                         CheckedOutDictionary[rsidReq] = updateResourceReturns[0].TrimEnd();
-
-                        //if (line.Contains(bookID.Key.ToString()))
-                        //{
-                        //    CheckedOutDictionary[bookID.Key] = bookID.Value + " (Checked Out)";
-                        //}
-
-
-
-                        //For Returns:
-                        //First iteration 
-                        //- type in student
-                        //- type in resID
-                        //- remove from SW
-                        //- update dictionary (Remove "Checked Out")
-
+                        
 
 
 
@@ -347,11 +366,21 @@ namespace ProjWk2
                         break;
                     case 6:
                         Header();
+                        Console.WriteLine(menu6);
                         Console.WriteLine("\n\n\nWould you like to clear student accounts? Y/N \n\nThis will \"return\" all books.");
                         string clearChoice = Console.ReadLine().ToUpper();
                         if (clearChoice == "Y")
                         {
                             StudentFiles(Students);
+                            StringBuilder printCleared = new StringBuilder();
+                            foreach (KeyValuePair<string,int> student in Students)
+                            {
+                                printCleared.Append(student.Key);
+                                printCleared.Append(" ");
+                                printCleared.Append(student.Value.ToString());
+                                printCleared.Append("\t--  File Cleared\n");
+                            }
+                            Console.WriteLine(printCleared);
                         }
 
                         Footer();
@@ -419,7 +448,20 @@ namespace ProjWk2
             int a = 1;
             foreach (KeyValuePair<int, string> book in Resources.OrderBy(i => i.Value))
             {
-                Console.WriteLine(a + ". " + "ID:" + book.Key + " " + book.Value);
+                List<string> ListResourcesList = new List<string>();
+                StringBuilder ListResourcesSB = new StringBuilder();
+                ListResourcesSB.Append(a);
+                ListResourcesSB.Append(". ");
+                ListResourcesSB.Append("ID:");
+                ListResourcesSB.Append(book.Key);
+                ListResourcesSB.Append(" ");
+                ListResourcesSB.Append(book.Value);
+
+                ListResourcesList.Add(ListResourcesSB.ToString());
+
+                Console.WriteLine(ListResourcesSB.ToString());
+
+                //Console.WriteLine(a + ". " + "ID:" + book.Key + " " + book.Value);
                 a++;
             }
         }
@@ -452,7 +494,7 @@ namespace ProjWk2
 
         }
 
-        static int ValidName(string userRequest)
+        static string ValidName(string userRequest)
         {
 
             int studentFileReq = 0;
@@ -466,24 +508,22 @@ namespace ProjWk2
                     ListStudents(Students);
                     Console.WriteLine("\n\nEnter student name:");
                     userRequest = Console.ReadLine().ToUpper();
-                }
-                else
+                } 
+                try
                 {
-                    try
-                    {
-                        studentFileReq = Students[userRequest];
-                        validName = false;
-                    }
-                    catch (KeyNotFoundException)
-                    {
-                        Console.WriteLine("This student is not in the system. Please check spelling and try again or register new student.");
-                        Console.WriteLine("\n\nEnter student name:" + "\n-Type \"Help\" to see list of students.");
-                        userRequest = Console.ReadLine().ToUpper();
-                    }
-
+                    studentFileReq = Students[userRequest];
+                    validName = false;
                 }
+                catch (KeyNotFoundException)
+                {
+                    Console.WriteLine("This student is not in the system. Please check spelling and try again or register new student.");
+                    Console.WriteLine("\n\nEnter student name:" + "\n-Type \"Help\" to see list of students.");
+                    userRequest = Console.ReadLine().ToUpper();
+                }
+
+                
             }
-            return studentFileReq;
+            return userRequest;
         }
         static int ValidNumber(string userRequest)
         {
@@ -495,6 +535,7 @@ namespace ProjWk2
                 if (userRequest.Equals("help", StringComparison.CurrentCultureIgnoreCase))
                 {
                     ListResources(Resources);
+
                     Console.WriteLine("\n\nEnter Resource ID:");
                     userRequest = Console.ReadLine();
                 }
@@ -517,7 +558,53 @@ namespace ProjWk2
             return resIDReq;
         }
 
+        static int ValidNumber2(string userRequest)
+        {
+            bool validNumber = true;
+            int resIDReq = 0;
+            while (validNumber)
+            {
 
+                if (userRequest.Equals("help", StringComparison.CurrentCultureIgnoreCase))
+                {
+                    int i = 1;
+                    foreach (KeyValuePair<int, string> resource in CheckedOutDictionary)
+                    {
+                        if (!resource.Value.Contains("(Checked Out)"))
+                        {
+                            StringBuilder availableSB = new StringBuilder();
+                            availableSB.Append(i);
+                            availableSB.Append(".  ID:");
+                            availableSB.Append(resource.Key);
+                            availableSB.Append(" ");
+                            availableSB.Append(resource.Value);
+                            Console.WriteLine(availableSB);
+                            //Console.WriteLine(i + ". " + resource.Value);
+                            i++;
+                        }
+                    }
+
+                   Console.WriteLine("\n\nEnter Resource ID:");
+                    userRequest = Console.ReadLine();
+                }
+                else
+                {
+                    try
+                    {
+                        resIDReq = int.Parse(userRequest);
+                        validNumber = false;
+                    }
+                    catch (KeyNotFoundException)
+                    {
+                        Console.WriteLine("\a\nError: ID not entered correctly. \nPlease enter 5-digit resource ID.");
+                        Console.WriteLine("\n\nEnter resource ID:" + "\n-Type \"Help\" to see list of resources.");
+                        userRequest = Console.ReadLine();
+                    }
+
+                }
+            }
+            return resIDReq;
+        }
         //Method to search StudentDictionary for a student name
 
         //Method to search Resources for a book
@@ -528,7 +615,6 @@ namespace ProjWk2
             {
                 Console.WriteLine(line);
             }
-
 
         }
 
